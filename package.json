@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "tabs-toggle.helloWorld",
-        "title": "Hello World"
+        "command": "tabs-toggle.toggleTabs",
+        "title": "tabs-toggle"
       }
     ]
   },
