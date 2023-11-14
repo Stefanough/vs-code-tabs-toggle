@@ -1,7 +1,11 @@
 {
   "name": "tabs-toggle",
   "displayName": "tabs-toggle",
-  "description": "toggle tabs",
+  "description": "Toggle editor tabs-bar visibility.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Stefanough/vs-code-tabs-toggle"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.84.0"
