@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/Stefanough/vs-code-tabs-toggle"
   },
-  "version": "0.0.2",
+  "version": "0.2.0",
   "engines": {
     "vscode": "^1.84.0"
   },
@@ -21,6 +21,10 @@
       {
         "command": "tabs-toggle.toggleTabs",
         "title": "tabs-toggle"
+      },
+      {
+        "command": "tabs-toggle.cycleBar",
+        "title": "cycle-bar"
       }
     ]
   },

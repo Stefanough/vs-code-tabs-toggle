@@ -9,11 +9,20 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "max-len": [
+            "warn",
+            {
+                "code": 80
+            }
+        ],
         "@typescript-eslint/naming-convention": [
             "warn",
             {
                 "selector": "import",
-                "format": [ "camelCase", "PascalCase" ]
+                "format": [
+                    "camelCase",
+                    "PascalCase"
+                ]
             }
         ],
         "@typescript-eslint/semi": "warn",

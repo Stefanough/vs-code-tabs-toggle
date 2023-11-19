@@ -1,11 +1,14 @@
 # tabs-toggle README
 
-Simple extension that provides a custom command to toggle the editor tabs-bar.
+Simple extension that provides a custom commands to toggle the editor tabs-bar
+and cycle through UI elements.
 
 ## Features
 
-Very simple plugin that allows for toggling of the editor tabs-bar using a
-custom command.
+Plugin that provides a few custom commands.
+- `toggleTabs` simply toggles the tabs-bar
+- `cycleBar` cycles through visibility of the statusbar, breadcrumbs, and
+  tabsbar.
 
 The release of VS Code 1.84 introduced a [new set of options for displaying the
 editor tabs-bar](https://code.visualstudio.com/updates/v1_84#_hide-editor-tabs).
@@ -22,6 +25,10 @@ For now, toggling the tabs-bar also affects the visibility of the editor
 breadcrumbs.
 
 ## Release Notes
+
+### 0.2.0
+
+Command to cycle through UI elements
 
 ### 0.0.1
 
