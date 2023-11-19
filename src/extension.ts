@@ -4,24 +4,30 @@ import * as vscode from 'vscode';
 
 type BarsVisibilityState = "all" | "breadcrumbsAndTabs" | "tabs" | "none";
 
+function restoreUIElements(): void {
+  // restore status bar
+  vscode.workspace.getConfiguration()
+    .update("workbench.statusBar.visible", true, true);
+
+  // restore breadcrumbs
+  vscode.workspace.getConfiguration()
+    .update("breadcrumbs.enabled", true, true);
+
+  // restore editor tabs bar
+  vscode.workspace.getConfiguration()
+    .update("workbench.editor.showTabs", "multiple", true);
+}
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  const restoreUIElementsCommand = vscode.commands.registerCommand(
+    'tabs-toggle.restoreUIElements',
+    () => {
+      restoreUIElements();
+    }
+  );
 
-  // Use the console to output diagnostic information (console.log) and errors
-  // (console.error). This line of code will only be executed once when your
-  // extension is activated
-  console.log('Congratulations, your extension "tabs-toggle" is now active!');
-
-  function tabsBarVisible() {
-    // returns true if the editor tabs bar is visible
-    return vscode.workspace.getConfiguration()
-      .get("workbench.editor.showTabs") === "none" ? false : true;
-  }
-
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
   const toggleTabsBar = vscode.commands.registerCommand(
     'tabs-toggle.toggleTabs',
     () => {
@@ -50,35 +56,24 @@ export function activate(context: vscode.ExtensionContext) {
   const cycleBar = vscode.commands.registerCommand(
     'tabs-toggle.cycleBar',
     () => {
-      // switch case for cycling through the different states of the editor tabs
-      // bar
-
-      // variable to hold the current state of the editor status bar
+      // current state of the editor status bar
       const statusBarVisible = vscode.workspace.getConfiguration()
         .get("workbench.statusBar.visible");
 
-      console.log({ statusBarVisible });
-
-      // variable to hold the current state of editor breadcrumbs
+      // current state of editor breadcrumbs
       const breadcrumbsVisible = vscode.workspace.getConfiguration()
         .get("breadcrumbs.enabled");
 
-      console.log({ breadcrumbsVisible });
-
-      // variable to hold the current state of the editor tabs bar
-      const editorTabsVisible = tabsBarVisible();
-
-      console.log({ editorTabsVisible });
+      // current state of the editor tabs bar
+      const editorTabsVisible = vscode.workspace.getConfiguration()
+        .get("workbench.editor.showTabs") === "none" ? false : true;
 
       const barsVisibilityState: BarsVisibilityState = (
-        // statusBarVisible && breadcrumbsVisible && editorTabsVisible ? "all"
-        statusBarVisible ? "all"
+        statusBarVisible && breadcrumbsVisible && editorTabsVisible ? "all"
           : breadcrumbsVisible && editorTabsVisible ? "breadcrumbsAndTabs"
             : editorTabsVisible ? "tabs"
               : "none"
       );
-
-      console.log(barsVisibilityState);
 
       switch (barsVisibilityState) {
         case 'all':
@@ -101,25 +96,20 @@ export function activate(context: vscode.ExtensionContext) {
 
         case 'none':
           // show status bar and breadcrumbs and editor tabs bar
-          vscode.workspace.getConfiguration()
-            .update("workbench.statusBar.visible", true, true);
-          vscode.workspace.getConfiguration()
-            .update("breadcrumbs.enabled", true, true);
-          vscode.workspace.getConfiguration()
-            .update("workbench.editor.showTabs", "multiple", true);
-          break;
+          restoreUIElements();
 
         default:
-          // show error message if none of the above cases are met
           vscode.window.showErrorMessage(
-            "Error: Could not cycle through the editor bars"
+            `Error: Could not determine the current state of the editor tabs or
+            status bars. Use the restoreUIElementsCommand to restore
+            visibility.`
           );
           break;
       }
     }
   );
 
-  context.subscriptions.push(toggleTabsBar, cycleBar);
+  context.subscriptions.push(toggleTabsBar, cycleBar, restoreUIElementsCommand);
 }
 
 // This method is called when your extension is deactivated
