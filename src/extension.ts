@@ -97,11 +97,12 @@ export function activate(context: vscode.ExtensionContext) {
         case 'none':
           // show status bar and breadcrumbs and editor tabs bar
           restoreUIElements();
+          break;
 
         default:
           vscode.window.showErrorMessage(
             `Error: Could not determine the current state of the editor tabs or
-            status bars. Use the restoreUIElementsCommand to restore
+            status bars. Use the restoreUIElements command to restore
             visibility.`
           );
           break;
